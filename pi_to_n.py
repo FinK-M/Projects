@@ -1,28 +1,36 @@
 from decimal import *
 from time import sleep
 
-getcontext().prec = int(input("Enter number of decimal places: "))
+
+def factorial(n):
+    if n < 1:
+        return 1
+    else:
+        return n * factorial(n-1)
 
 
-def findPi(n):
+def chudnovskyBig(n):
     pi = Decimal(0)
     k = 0
     while k < n:
-        pi += ((Decimal(1) / (16 ** k)) * ((Decimal(4) / (8 * k + 1))
-               - (Decimal(2) / (8 * k + 4)) - (Decimal(1) / (8 * k + 5))
-               - (Decimal(1) / (8 * k + 6))))
+        pi += ((Decimal(-1) ** k) * (Decimal(factorial(6 * k)) /
+              ((factorial(k) ** 3) * (factorial(3 * k))) *
+              (13591409+545140134*k)/(640320**(3*k))))
         k += 1
+    pi = pi * Decimal(10005).sqrt()/4270934400
+    pi = pi ** (-1)
     return pi
 
+
+getcontext().prec = int(input("Enter number of decimal places: "))
 i = 0
 lastpi = 0
 newpi = 3
 
 while lastpi != newpi:
     lastpi = newpi
-    newpi = findPi(i)
+    newpi = chudnovskyBig(i)
     i += 1
+print(i, newpi)
 
-print(lastpi)
-print(newpi)
 sleep(10)
